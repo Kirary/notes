@@ -2,15 +2,15 @@
     flex: 1 1 auto;
     padding: 16px 32px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     /* grid-gap: 16px; */
-    grid-auto-rows: 16px;
+    grid-auto-rows: 8px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
 .note {
-    width: 200px;
-    padding: 16px;
+    width: calc(100% - 16px);
     justify-self: center;
+    margin-bottom: 16px;
 }
