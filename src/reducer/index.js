@@ -1,16 +1,31 @@
 import AT from "./actionTypes";
+import { generateId } from "../utils";
 
 export default function reducer(state, action) {
     switch (action.type) {
         case AT.CREATE_NOTE:
-            return { ...state, notes: [...state.notes, action.note] };
+            return {
+                ...state,
+                notes: [...state.notes, { id: generateId(), ...action.note }]
+            };
         case AT.DELETE_NOTE: {
-            debugger;
             const filteredNotes = state.notes.filter(
                 note => note.id !== action.id
             );
             return { ...state, notes: filteredNotes };
         }
+        case AT.UPDATE_NOTE: {
+            const notes = [...state.notes];
+            const noteIndex = notes.findIndex(
+                note => note.id === action.note.id
+            );
+            notes[noteIndex] = action.note;
+            return { ...state, notes };
+        }
+        case AT.OPEN_DIALOG:
+            return { ...state, isDialogOpen: true };
+        case AT.CLOSE_DIALOG:
+            return { ...state, isDialogOpen: false };
         default:
             return state;
     }

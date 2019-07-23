@@ -1,37 +1,108 @@
 import React, { useState, useRef, useLayoutEffect, useContext } from "react";
-import Paper from "@material-ui/core/Paper";
+import { Paper, makeStyles, createStyles, IconButton } from "@material-ui/core";
+import Clear from "@material-ui/icons/Clear";
+import Edit from "@material-ui/icons/Edit";
 import { NotesDispatch } from "./App";
-import AT from "../reducer/actionTypes";
+import { updateNote, deleteNote } from "../reducer/actionCreator";
 
-const gridGap = 8;
+export const gridAutoRows = 8;
 
-const Note = ({ header, content, id }) => {
+const useStyles = makeStyles(theme =>
+    createStyles({
+        root: {
+            width: `calc(100% - ${theme.spacing(2)}px)`,
+            justifySelf: "center",
+            marginBottom: theme.spacing(2)
+        },
+        container: {
+            padding: theme.spacing(),
+            paddingLeft: theme.spacing(2)
+        },
+        header: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end"
+        },
+        visible: {
+            opacity: 1,
+            transition: "opacity 200ms"
+        },
+        transparent: {
+            opacity: 0.2
+        },
+        invisible: {
+            opacity: 0
+        },
+        icons: {
+            fontSize: 16
+        },
+        content: {
+            whiteSpace: "pre-line"
+        }
+    })
+);
+
+const Note = props => {
+    const { id, content } = props;
+    const classes = useStyles();
     const [span, setSpan] = useState(undefined);
+    const [isMouseOver, setMouseOverStatus] = useState(false);
     const ref = useRef(null);
 
     useLayoutEffect(() => {
-        setSpan(Math.round(ref.current.clientHeight / gridGap) + 2);
-    }, []);
+        setSpan(Math.round(ref.current.clientHeight / gridAutoRows) + 3);
+    });
 
     const dispatch = useContext(NotesDispatch);
 
+    const onMouseOver = () => {
+        setMouseOverStatus(true);
+    };
+    const onMouseLeave = () => {
+        setMouseOverStatus(false);
+    };
+
     return (
         <Paper
-            className="note"
+            className={classes.root}
             style={span ? { gridRowEnd: `span ${span}` } : {}}
+            onMouseOver={onMouseOver}
+            onMouseLeave={onMouseLeave}
         >
-            <div ref={ref} style={{ padding: 8 }}>
-                <div>
-                    {header}{" "}
-                    <span
+            <div ref={ref} className={classes.container}>
+                <div className={classes.header}>
+                    <IconButton
+                        className={
+                            isMouseOver ? classes.visible : classes.invisible
+                        }
+                        size="small"
                         onClick={() => {
-                            dispatch({ type: AT.DELETE_NOTE, id });
+                            dispatch(
+                                updateNote({
+                                    id,
+                                    content:
+                                        "test long text content test long text content test long text content test long text content test long text content test long text content test long text content test long text content "
+                                })
+                            );
                         }}
+                        color="primary"
                     >
-                        X
-                    </span>
+                        <Edit className={classes.icons} />
+                    </IconButton>
+                    <IconButton
+                        className={
+                            isMouseOver ? classes.visible : classes.transparent
+                        }
+                        size="small"
+                        onClick={() => {
+                            dispatch(deleteNote(id));
+                        }}
+                        color="primary"
+                    >
+                        <Clear className={classes.icons} />
+                    </IconButton>
                 </div>
-                <div>{content}</div>
+                <div className={classes.content}>{content}</div>
             </div>
         </Paper>
     );
