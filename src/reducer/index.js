@@ -22,10 +22,19 @@ export default function reducer(state, action) {
             notes[noteIndex] = action.note;
             return { ...state, notes };
         }
-        case AT.OPEN_DIALOG:
-            return { ...state, isDialogOpen: true };
+        case AT.OPEN_DIALOG: {
+            const isEditMode = action.isEditMode;
+            const editedNote = action.note;
+
+            return { ...state, isDialogOpen: true, isEditMode, editedNote };
+        }
         case AT.CLOSE_DIALOG:
-            return { ...state, isDialogOpen: false };
+            return {
+                ...state,
+                isDialogOpen: false,
+                isEditMode: false,
+                editedNote: null
+            };
         default:
             return state;
     }

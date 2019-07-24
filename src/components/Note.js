@@ -3,7 +3,7 @@ import { Paper, makeStyles, createStyles, IconButton } from "@material-ui/core";
 import Clear from "@material-ui/icons/Clear";
 import Edit from "@material-ui/icons/Edit";
 import { NotesDispatch } from "./App";
-import { updateNote, deleteNote } from "../reducer/actionCreator";
+import { updateNote, deleteNote, openDialog } from "../reducer/actionCreator";
 
 export const gridAutoRows = 8;
 
@@ -47,7 +47,10 @@ const Note = props => {
     const classes = useStyles();
     const [span, setSpan] = useState(undefined);
     const [isMouseOver, setMouseOverStatus] = useState(false);
+
     const ref = useRef(null);
+
+    const openEditDialog = () => dispatch(openDialog(true, { id, content }));
 
     useLayoutEffect(() => {
         setSpan(Math.round(ref.current.clientHeight / gridAutoRows) + 3);
@@ -76,15 +79,7 @@ const Note = props => {
                             isMouseOver ? classes.visible : classes.invisible
                         }
                         size="small"
-                        onClick={() => {
-                            dispatch(
-                                updateNote({
-                                    id,
-                                    content:
-                                        "test long text content test long text content test long text content test long text content test long text content test long text content test long text content test long text content "
-                                })
-                            );
-                        }}
+                        onClick={openEditDialog}
                         color="primary"
                     >
                         <Edit className={classes.icons} />

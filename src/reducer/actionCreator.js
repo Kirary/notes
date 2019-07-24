@@ -28,8 +28,10 @@ export const deleteNote = id => ({
     id
 });
 
-export const openDialog = _ => ({
-    type: AT.OPEN_DIALOG
+export const openDialog = (isEditMode = false, note = {}) => ({
+    type: AT.OPEN_DIALOG,
+    isEditMode,
+    note
 });
 
 export const closeDialog = _ => ({

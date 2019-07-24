@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Plus from "@material-ui/icons/Add";
 import { makeStyles, createStyles } from "@material-ui/core";
@@ -20,13 +20,13 @@ const useStyles = makeStyles(theme =>
 
 const Header = () => {
     const classes = useStyles();
-    const dispatch = useContext(NotesDispatch);
+    const dispatch = React.useContext(NotesDispatch);
 
-    const opentAddNoteDialog = () => dispatch(openDialog());
+    const openNoteDialog = () => dispatch(openDialog());
 
     return (
         <div className={classes.root}>
-            <IconButton onClick={opentAddNoteDialog}>
+            <IconButton onClick={openNoteDialog}>
                 <Plus />
             </IconButton>
         </div>

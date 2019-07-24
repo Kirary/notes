@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Note, { gridAutoRows } from "./Note";
 import { NotesState } from "./App";
 import { makeStyles, createStyles } from "@material-ui/core";
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme =>
 
 const NotesContainer = () => {
     const classes = useStyles();
-    const state = useContext(NotesState);
+    const state = React.useContext(NotesState);
     const noteList = state
         ? state.notes.map(note => <Note {...note} key={note.id} />)
         : null;
