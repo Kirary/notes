@@ -3,7 +3,7 @@ import { Paper, makeStyles, createStyles, IconButton } from "@material-ui/core";
 import Clear from "@material-ui/icons/Clear";
 import Edit from "@material-ui/icons/Edit";
 import { NotesDispatch } from "./App";
-import { updateNote, deleteNote, openDialog } from "../reducer/actionCreator";
+import { deleteNote, openDialog } from "../reducer/actionCreator";
 
 export const gridAutoRows = 8;
 

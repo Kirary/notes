@@ -22,7 +22,8 @@ const appInitialState = {
     notes: [],
     isDialogOpen: false,
     isEditMode: false,
-    editedNote: null
+    editedNote: null,
+    search: ""
 };
 
 export const NotesDispatch = React.createContext(null);

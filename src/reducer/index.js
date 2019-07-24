@@ -35,6 +35,8 @@ export default function reducer(state, action) {
                 isEditMode: false,
                 editedNote: null
             };
+        case AT.SEARCH:
+            return { ...state, search: action.search };
         default:
             return state;
     }

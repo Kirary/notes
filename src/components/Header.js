@@ -4,6 +4,7 @@ import Plus from "@material-ui/icons/Add";
 import { makeStyles, createStyles } from "@material-ui/core";
 import { NotesDispatch } from "./App";
 import { openDialog } from "../reducer/actionCreator";
+import SearchField from "./SearchField";
 
 const useStyles = makeStyles(theme =>
     createStyles({
@@ -13,7 +14,13 @@ const useStyles = makeStyles(theme =>
             display: "flex",
             flexDirection: "row-reverse",
             flex: "none",
-            padding: theme.spacing()
+            alignItems: "center",
+            padding: theme.spacing(),
+            paddingLeft: theme.spacing(2)
+        },
+        rightBlock: {
+            flex: "none"
+            // marginLeft: "auto"
         }
     })
 );
@@ -26,9 +33,10 @@ const Header = () => {
 
     return (
         <div className={classes.root}>
-            <IconButton onClick={openNoteDialog}>
+            <IconButton onClick={openNoteDialog} className={classes.rightBlock}>
                 <Plus />
             </IconButton>
+            <SearchField />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import Note, { gridAutoRows } from "./Note";
 import { NotesState } from "./App";
-import { makeStyles, createStyles } from "@material-ui/core";
+import { makeStyles, createStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(theme =>
     createStyles({
@@ -12,7 +12,13 @@ const useStyles = makeStyles(theme =>
             gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
             gridAutoRows,
             overflowX: "hidden",
-            overflowY: "auto"
+            overflowY: "auto",
+            position: "relative"
+        },
+        message: {
+            position: "absolute",
+            top: "10%",
+            width: "100%"
         }
     })
 );
@@ -20,10 +26,26 @@ const useStyles = makeStyles(theme =>
 const NotesContainer = () => {
     const classes = useStyles();
     const state = React.useContext(NotesState);
-    const noteList = state
-        ? state.notes.map(note => <Note {...note} key={note.id} />)
-        : null;
-    return <div className={classes.root}>{noteList}</div>;
+    const { notes, search } = state;
+    const noteList = notes
+        .filter(note => note.content.includes(search))
+        .map(note => <Note {...note} key={note.id} />);
+
+    const message = (
+        <Typography
+            align="center"
+            variant="overline"
+            className={classes.message}
+        >
+            {notes.length === 0 ? "Add you notes" : "Nothing found"}
+        </Typography>
+    );
+
+    return (
+        <div className={classes.root}>
+            {noteList.length === 0 ? message : noteList}
+        </div>
+    );
 };
 
 export default NotesContainer;

@@ -46,7 +46,6 @@ const NoteDialog = props => {
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="name"
                     type="text"
                     fullWidth
                     multiline

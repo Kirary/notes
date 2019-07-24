@@ -37,3 +37,8 @@ export const openDialog = (isEditMode = false, note = {}) => ({
 export const closeDialog = _ => ({
     type: AT.CLOSE_DIALOG
 });
+
+export const searchNote = search => ({
+    type: AT.SEARCH,
+    search
+});
