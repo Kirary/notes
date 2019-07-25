@@ -1,5 +1,7 @@
+## Description
+
 App displays notes with tags.
-No redux or mobx. It based on react-hooks and use localestorage for storing notes.
+No redux or mobx. It based on react-hooks and use localstorage for storing notes.
 
 ## Create React App
 
