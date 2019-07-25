@@ -4,7 +4,7 @@ export const loadNotes = () => {
     const notes = JSON.parse(localStorage.getItem("notes"));
     return {
         type: AT.LOAD_NOTES,
-        notes
+        notes: notes ? notes : []
     };
 };
 
