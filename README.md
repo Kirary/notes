@@ -1,3 +1,8 @@
+App displays notes with tags.
+No redux or mobx. It based on react-hooks and use localestorage for storing notes.
+
+## Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
