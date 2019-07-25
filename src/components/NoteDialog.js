@@ -12,30 +12,38 @@ const NoteDialog = props => {
     const { isOpen, isEditMode, note } = props;
     const dispatch = useContext(NotesDispatch);
     const [content, setContent] = useState("");
+    const [tags, setTags] = useState("");
 
     useEffect(() => {
         if (isEditMode) {
             setContent(note.content);
+            setTags(note.tags);
         }
     }, [isOpen, isEditMode, note]);
 
     const handleClose = () => {
         dispatch(closeDialog());
         setContent("");
+        setTags("");
     };
 
-    const handleChange = event => {
+    const handleContentChange = event => {
         setContent(event.target.value);
+    };
+
+    const handleTagsChange = event => {
+        setTags(event.target.value);
     };
 
     const handleSave = () => {
         if (isEditMode) {
-            dispatch(updateNote({ id: note.id, content }));
+            dispatch(updateNote({ id: note.id, content, tags }));
         } else {
-            dispatch(createNote({ content }));
+            dispatch(createNote({ content, tags }));
         }
         dispatch(closeDialog());
         setContent("");
+        setTags("");
     };
 
     const title = isEditMode ? "Update note" : "New note";
@@ -48,19 +56,36 @@ const NoteDialog = props => {
                     autoFocus
                     margin="dense"
                     type="text"
+                    label="Note"
                     fullWidth
                     multiline
                     rows={2}
                     rowsMax={8}
                     value={content}
-                    onChange={handleChange}
+                    onChange={handleContentChange}
+                />
+                <TextField
+                    label="tags"
+                    margin="dense"
+                    type="text"
+                    fullWidth
+                    value={tags}
+                    onChange={handleTagsChange}
+                    placeholder='Split your tags by ","'
+                    InputLabelProps={{
+                        shrink: true
+                    }}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleSave} color="primary">
+                <Button
+                    onClick={handleSave}
+                    color="primary"
+                    disabled={!content}
+                >
                     Save
                 </Button>
             </DialogActions>

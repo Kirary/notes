@@ -8,19 +8,14 @@ export const clearNotes = () => ({
     type: AT.DELETE_NOTES
 });
 
-export const createNote = ({ content }) => ({
+export const createNote = note => ({
     type: AT.CREATE_NOTE,
-    note: {
-        content
-    }
+    note
 });
 
-export const updateNote = ({ id, content }) => ({
+export const updateNote = note => ({
     type: AT.UPDATE_NOTE,
-    note: {
-        id,
-        content
-    }
+    note
 });
 
 export const deleteNote = id => ({

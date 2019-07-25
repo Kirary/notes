@@ -11,7 +11,7 @@ import {
 import Delete from "@material-ui/icons/Clear";
 import Edit from "@material-ui/icons/Edit";
 import { NotesDispatch } from "./App";
-import { deleteNote, openDialog } from "../reducer/actionCreator";
+import { deleteNote, openDialog, searchNote } from "../reducer/actionCreator";
 
 export const gridAutoRows = 8;
 
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme =>
             whiteSpace: "pre-line"
         },
         chip: {
-            margin: theme.spacing(1),
+            margin: theme.spacing(0.5),
             marginBottom: 0
         },
         deleteDialog: {
@@ -71,6 +71,7 @@ const useStyles = makeStyles(theme =>
 
 const Note = props => {
     const { note } = props;
+    const { title, content, tags = "" } = note;
     const classes = useStyles();
     const [span, setSpan] = useState(undefined);
     const [isDialogShown, setDialogVisibility] = useState(false);
@@ -104,6 +105,8 @@ const Note = props => {
         dispatch(deleteNote(note.id));
     };
 
+    const searchByTag = tag => () => dispatch(searchNote(tag));
+
     const renderDeleteDialog = () =>
         isDialogShown ? (
             <ClickAwayListener onClickAway={closeDeleteDialog}>
@@ -124,6 +127,21 @@ const Note = props => {
                 </div>
             </ClickAwayListener>
         ) : null;
+
+    const renderTags = () => {
+        return tags
+            .split(",")
+            .map(tag => tag.trim())
+            .filter(tag => tag)
+            .map(tag => (
+                <Chip
+                    size="small"
+                    label={tag}
+                    className={classes.chip}
+                    onClick={searchByTag(tag)}
+                />
+            ));
+    };
 
     return (
         <Paper
@@ -156,13 +174,8 @@ const Note = props => {
                     </IconButton>
                     {renderDeleteDialog()}
                 </div>
-                <div className={classes.content}>{note.content}</div>
-
-                {/* <Chip
-                    size="small"
-                    label="Basic Chip"
-                    className={classes.chip}
-                /> */}
+                <div className={classes.content}>{content}</div>
+                {renderTags()}
             </div>
         </Paper>
     );

@@ -28,7 +28,9 @@ const NotesContainer = () => {
     const state = React.useContext(NotesState);
     const { notes, search } = state;
     const noteList = notes
-        .filter(note => note.content.includes(search))
+        .filter(
+            note => note.content.includes(search) || note.tags.includes(search)
+        )
         .map(note => <Note note={note} key={note.id} />);
 
     const message = (
