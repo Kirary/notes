@@ -24,16 +24,15 @@ export default function reducer(state, action) {
         }
         case AT.OPEN_DIALOG: {
             const isEditMode = action.isEditMode;
-            const editedNote = action.note;
-
-            return { ...state, isDialogOpen: true, isEditMode, editedNote };
+            const selectedNote = action.note;
+            return { ...state, isDialogOpen: true, isEditMode, selectedNote };
         }
         case AT.CLOSE_DIALOG:
             return {
                 ...state,
                 isDialogOpen: false,
                 isEditMode: false,
-                editedNote: null
+                selectedNote: null
             };
         case AT.SEARCH:
             return { ...state, search: action.search };

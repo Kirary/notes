@@ -21,6 +21,7 @@ const NoteDialog = props => {
 
     const handleClose = () => {
         dispatch(closeDialog());
+        setContent("");
     };
 
     const handleChange = event => {

@@ -22,7 +22,7 @@ const appInitialState = {
     notes: [],
     isDialogOpen: false,
     isEditMode: false,
-    editedNote: null,
+    selectedNote: null,
     search: ""
 };
 
@@ -32,7 +32,7 @@ export const NotesState = React.createContext(null);
 const App = () => {
     const classes = useStyles();
     const [state, dispatch] = React.useReducer(reducer, appInitialState);
-    const { isDialogOpen, isEditMode, editedNote } = state;
+    const { isDialogOpen, isEditMode, selectedNote } = state;
 
     return (
         <NotesDispatch.Provider value={dispatch}>
@@ -44,7 +44,7 @@ const App = () => {
                 <NoteDialog
                     isOpen={isDialogOpen}
                     isEditMode={isEditMode}
-                    note={editedNote}
+                    note={selectedNote}
                 />
             </NotesState.Provider>
         </NotesDispatch.Provider>

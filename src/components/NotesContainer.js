@@ -29,7 +29,7 @@ const NotesContainer = () => {
     const { notes, search } = state;
     const noteList = notes
         .filter(note => note.content.includes(search))
-        .map(note => <Note {...note} key={note.id} />);
+        .map(note => <Note note={note} key={note.id} />);
 
     const message = (
         <Typography

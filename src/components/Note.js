@@ -1,6 +1,14 @@
 import React, { useState, useRef, useLayoutEffect, useContext } from "react";
-import { Paper, makeStyles, createStyles, IconButton } from "@material-ui/core";
-import Clear from "@material-ui/icons/Clear";
+import {
+    Paper,
+    makeStyles,
+    createStyles,
+    IconButton,
+    Chip,
+    ClickAwayListener,
+    Button
+} from "@material-ui/core";
+import Delete from "@material-ui/icons/Clear";
 import Edit from "@material-ui/icons/Edit";
 import { NotesDispatch } from "./App";
 import { deleteNote, openDialog } from "../reducer/actionCreator";
@@ -15,8 +23,8 @@ const useStyles = makeStyles(theme =>
             marginBottom: theme.spacing(2)
         },
         container: {
-            padding: theme.spacing(),
-            paddingLeft: theme.spacing(2)
+            padding: `${theme.spacing()}px ${theme.spacing(2)}px`,
+            position: "relative"
         },
         header: {
             display: "flex",
@@ -38,19 +46,42 @@ const useStyles = makeStyles(theme =>
         },
         content: {
             whiteSpace: "pre-line"
+        },
+        chip: {
+            margin: theme.spacing(1),
+            marginBottom: 0
+        },
+        deleteDialog: {
+            boxSizing: "border-box",
+            margin: theme.spacing(0.5),
+            padding: theme.spacing(),
+            position: "absolute",
+            top: 0,
+            left: 0,
+            background: theme.palette.common.white,
+            width: `calc(100% - ${theme.spacing(2)}px)`,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
         }
     })
 );
 
 const Note = props => {
-    const { id, content } = props;
+    const { note } = props;
     const classes = useStyles();
     const [span, setSpan] = useState(undefined);
+    const [isDialogShown, setDialogVisibility] = useState(false);
     const [isMouseOver, setMouseOverStatus] = useState(false);
 
     const ref = useRef(null);
 
-    const openEditDialog = () => dispatch(openDialog(true, { id, content }));
+    const openEditDialog = () => dispatch(openDialog(true, note));
+    const onOpenDeleteDialog = () => {
+        setDialogVisibility(true);
+    };
 
     useLayoutEffect(() => {
         setSpan(Math.round(ref.current.clientHeight / gridAutoRows) + 3);
@@ -64,6 +95,35 @@ const Note = props => {
     const onMouseLeave = () => {
         setMouseOverStatus(false);
     };
+
+    const closeDeleteDialog = () => {
+        setDialogVisibility(false);
+    };
+
+    const onDeleteNote = () => {
+        dispatch(deleteNote(note.id));
+    };
+
+    const renderDeleteDialog = () =>
+        isDialogShown ? (
+            <ClickAwayListener onClickAway={closeDeleteDialog}>
+                <div className={classes.deleteDialog}>
+                    <div>Delete this Note?</div>
+                    <div>
+                        <Button
+                            color="secondary"
+                            size="small"
+                            onClick={onDeleteNote}
+                        >
+                            confirm
+                        </Button>
+                        <Button size="small" onClick={closeDeleteDialog}>
+                            cancel
+                        </Button>
+                    </div>
+                </div>
+            </ClickAwayListener>
+        ) : null;
 
     return (
         <Paper
@@ -89,15 +149,20 @@ const Note = props => {
                             isMouseOver ? classes.visible : classes.transparent
                         }
                         size="small"
-                        onClick={() => {
-                            dispatch(deleteNote(id));
-                        }}
+                        onClick={onOpenDeleteDialog}
                         color="primary"
                     >
-                        <Clear className={classes.icons} />
+                        <Delete className={classes.icons} />
                     </IconButton>
+                    {renderDeleteDialog()}
                 </div>
-                <div className={classes.content}>{content}</div>
+                <div className={classes.content}>{note.content}</div>
+
+                {/* <Chip
+                    size="small"
+                    label="Basic Chip"
+                    className={classes.chip}
+                /> */}
             </div>
         </Paper>
     );

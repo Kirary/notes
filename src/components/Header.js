@@ -16,11 +16,10 @@ const useStyles = makeStyles(theme =>
             flex: "none",
             alignItems: "center",
             padding: theme.spacing(),
-            paddingLeft: theme.spacing(2)
+            paddingLeft: theme.spacing(4)
         },
         rightBlock: {
             flex: "none"
-            // marginLeft: "auto"
         }
     })
 );
