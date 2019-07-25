@@ -3,6 +3,16 @@ import { generateId } from "../utils";
 
 export default function reducer(state, action) {
     switch (action.type) {
+        case AT.LOAD_NOTES: {
+            const notes = action.notes.map(note => ({
+                ...note,
+                id: generateId()
+            }));
+            return {
+                ...state,
+                notes
+            };
+        }
         case AT.CREATE_NOTE:
             return {
                 ...state,

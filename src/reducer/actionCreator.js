@@ -1,8 +1,12 @@
 import AT from "./actionTypes";
 
-export const loadNotes = () => ({
-    type: AT.LOAD_NOTES
-});
+export const loadNotes = () => {
+    const notes = JSON.parse(localStorage.getItem("notes"));
+    return {
+        type: AT.LOAD_NOTES,
+        notes
+    };
+};
 
 export const clearNotes = () => ({
     type: AT.DELETE_NOTES

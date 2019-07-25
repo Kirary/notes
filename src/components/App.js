@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import reducer from "../reducer";
 import NotesContainer from "./NotesContainer";
 import NoteDialog from "./NoteDialog";
 import { makeStyles, createStyles } from "@material-ui/core";
+import { loadNotes } from "../reducer/actionCreator";
 
 const useStyles = makeStyles(theme =>
     createStyles({
@@ -33,6 +34,13 @@ const App = () => {
     const classes = useStyles();
     const [state, dispatch] = React.useReducer(reducer, appInitialState);
     const { isDialogOpen, isEditMode, selectedNote } = state;
+    useEffect(() => {
+        dispatch(loadNotes());
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("notes", JSON.stringify(state.notes));
+    }, [state.notes]);
 
     return (
         <NotesDispatch.Provider value={dispatch}>
