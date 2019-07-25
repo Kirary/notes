@@ -39,7 +39,15 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("notes", JSON.stringify(state.notes));
+        localStorage.setItem(
+            "notes",
+            JSON.stringify(
+                state.notes.map(note => {
+                    const { id, ...cleanNote } = note;
+                    return cleanNote;
+                })
+            )
+        );
     }, [state.notes]);
 
     return (

@@ -133,10 +133,11 @@ const Note = props => {
             .split(",")
             .map(tag => tag.trim())
             .filter(tag => tag)
-            .map(tag => (
+            .map((tag, index) => (
                 <Chip
                     size="small"
                     label={tag}
+                    key={index}
                     className={classes.chip}
                     onClick={searchByTag(tag)}
                 />
